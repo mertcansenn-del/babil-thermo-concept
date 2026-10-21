@@ -4,9 +4,9 @@ function action(label,detail,href,icon='link',primary=false,id=''){let e=documen
 document.title=p.name+' · BABİL | MONO LINK';document.querySelector('#name').textContent=p.name;document.querySelector('#subtitle').textContent=p.subtitle;document.querySelector('#role').textContent=p.role;if(p.photo){const img=document.createElement('img');img.src=base+'assets/'+p.photo;img.alt=p.name;img.className='portrait '+key;const frame=document.createElement('div');frame.className='photo-frame';frame.append(img);document.querySelector('#visual').append(frame);}else document.querySelector('#visual').innerHTML='<img class="store-logo" src="'+base+'assets/babil-logo.webp" alt="BABİL Thermo Concept marka amblemi">';
 action('WhatsApp ile iletişime geç',p.phone?formatPhone(p.phone):'Kişisel numara bekleniyor',p.phone?'https://wa.me/'+p.phone:null,'chat',true);
 action('Telefonla ara',p.phone?formatPhone(p.phone):'Kişisel numara bekleniyor',p.phone?'tel:+'+p.phone:null,'phone');
-for(const [label,value,icon] of [['Instagram',data.instagram,'link'],['Facebook',data.facebook,'link'],['Google’da yorum yap',data.review,'star'],['Web sitesi',data.web,'link']]){action(label,value?'Sayfayı aç':'Bağlantı bilgisi bekleniyor',value,icon);}
+for(const [label,value,icon] of [['Instagram',data.instagram,'link'],['Google’da yorum yap',data.review,'star'],['Web sitesi',data.web,'link']]){action(label,value?'Sayfayı aç':'Bağlantı bilgisi bekleniyor',value,icon);}
 if(key==='magaza')action('IBAN bilgileri',data.iban?'Hesap bilgisini kopyala':'Hesap bilgisi bekleniyor',null,'save',false,data.iban?'iban':'');
-action('Mağazaya yol tarifi',data.maps?'Dalaman · Muğla':'Konum bağlantısı bekleniyor',data.maps,'pin');document.querySelector('.address').textContent=data.address;
+action('Mağazaya yol tarifi',data.maps?'Muğla':'Konum bağlantısı bekleniyor',data.maps,'pin');document.querySelector('.address').textContent=data.address;
 for(const [k,label] of [['magaza','Mağaza'],['bilgehan','Bilgehan'],['banu','Banu']]){const a=document.createElement('a');a.href=base+(k==='magaza'?'':k+'/');a.textContent=label;if(k===key){a.className='active';a.setAttribute('aria-current','page');}document.querySelector('.switcher').append(a);}
 let timer;function toast(t){document.querySelector('.toast').textContent=t;clearTimeout(timer);timer=setTimeout(()=>document.querySelector('.toast').textContent='',4000);}async function copy(t){try{await navigator.clipboard.writeText(t);toast('Kopyalandı');}catch{toast('Kopyalanamadı. Tarayıcının paylaş menüsünü kullanabilirsiniz.');}}
 document.querySelector('#share').onclick=async()=>{if(navigator.share){try{await navigator.share({title:document.title,url:location.href});}catch(e){if(e.name!=='AbortError')copy(location.href);}}else copy(location.href);};
@@ -32,3 +32,5 @@ if(key!=='magaza'){
  document.querySelector('.card-footer').innerHTML='<strong class="mono">MONO LINK</strong><span class="powered">Dijital profil ve NFC çözümü</span><span class="tagline">Tek Dokunuş. Sınırsız Bağlantı.</span>';
 }
 if(key==='magaza'){document.querySelector('#name').remove();document.querySelector('#subtitle').remove();}
+
+const catalogLink=document.createElement('a');catalogLink.href=base+'katalog/';catalogLink.textContent='Katalog';document.querySelector('.switcher').append(catalogLink);action('Ürün Kataloğu','Ürünleri keşfedin',base+'katalog/','link');
